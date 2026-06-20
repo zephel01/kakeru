@@ -69,7 +69,10 @@ function groupModels(models: string[]): ModelGroup[] {
 }
 
 /** 各変数の説明と入力例（ぱっと見で分かるように） */
-const VARIABLE_HELP: Record<string, { desc: string; example: string }> = {
+const VARIABLE_HELP: Record<
+  string,
+  { desc: string; example: string; presets?: string[] }
+> = {
   // 技術解説記事
   topic: {
     desc: "記事のテーマ",
@@ -78,6 +81,13 @@ const VARIABLE_HELP: Record<string, { desc: string; example: string }> = {
   audience: {
     desc: "想定読者",
     example: "例: React は触れるが App Router は未経験の中級者",
+    presets: [
+      "初心者",
+      "中級者",
+      "実務エンジニア",
+      "これから学ぶ人",
+      "非エンジニア",
+    ],
   },
   keywords: {
     desc: "盛り込みたいキーワード（カンマ区切り）",
@@ -95,6 +105,14 @@ const VARIABLE_HELP: Record<string, { desc: string; example: string }> = {
   metrics: {
     desc: "評価する指標",
     example: "例: 生成速度(tok/s), 日本語の自然さ, コスト, トークン消費量",
+    presets: [
+      "速度",
+      "メモリ使用量",
+      "精度",
+      "コスト",
+      "開発体験(DX)",
+      "学習コスト",
+    ],
   },
   environment: {
     desc: "検証/動作環境",
@@ -125,16 +143,97 @@ const VARIABLE_HELP: Record<string, { desc: string; example: string }> = {
   goal: {
     desc: "投稿の目的",
     example: "例: 記事への流入を増やす / ツールの認知拡大",
+    presets: [
+      "記事への流入",
+      "認知拡大",
+      "議論を呼びたい",
+      "保存されたい",
+      "共感を得たい",
+    ],
   },
   tone: {
     desc: "トーン",
     example: "例: フランクだが誇張しない技術者向け",
+    presets: ["フランク", "ていねい", "熱量高め", "落ち着いた", "真面目"],
   },
   link: {
     desc: "貼りたいリンク",
     example: "例: https://zenn.dev/yourname/articles/xxxx",
   },
+  // チュートリアル
+  prerequisites: {
+    desc: "前提知識・環境",
+    example: "例: Node.js 20、TypeScriptの基礎",
+    presets: [
+      "特になし",
+      "基本的なコマンド操作",
+      "JS/TSの基礎",
+      "Gitの基礎",
+      "Dockerの基礎",
+    ],
+  },
+  outcome: {
+    desc: "読者が最後にできること（ゴール）",
+    example: "例: 自分のPCでローカルLLMを動かせる",
+  },
+  // まとめ / オピニオン
+  theme: {
+    desc: "テーマ・論点",
+    example: "例: 個人開発でAIをどう使うか",
+  },
+  count: {
+    desc: "紹介する数",
+    example: "例: 5",
+    presets: ["3", "5", "7", "10"],
+  },
+  criteria: {
+    desc: "選定基準",
+    example: "例: 無料で使える / 日本語対応",
+    presets: [
+      "人気度",
+      "使いやすさ",
+      "無料・安さ",
+      "日本語対応",
+      "学習コスト",
+      "実務での実績",
+    ],
+  },
+  stance: {
+    desc: "自分の立場・主張",
+    example: "例: 小規模ならローカルLLMで十分",
+    presets: ["賛成", "反対", "中立（両論）", "条件つき賛成"],
+  },
+  context: {
+    desc: "背景・きっかけ",
+    example: "例: 実務で試して感じたこと",
+  },
+  // リリース告知
+  product_name: {
+    desc: "プロダクト/機能の名前",
+    example: "例: Kakeru v0.2",
+  },
+  what_changed: {
+    desc: "何が新しい・何ができる",
+    example: "例: お店モードと画像プロンプト支援を追加",
+  },
 };
+
+/** カンマ/読点区切りの値を配列化 */
+function splitDraftParts(v: string): string[] {
+  return v
+    .split(/[、,]\s*/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/** プリセットのON/OFFトグル */
+function toggleDraftPart(v: string, p: string): string {
+  const parts = splitDraftParts(v);
+  const i = parts.indexOf(p);
+  if (i >= 0) parts.splice(i, 1);
+  else parts.push(p);
+  return parts.join("、");
+}
 
 export default function DraftForm() {
   const [templates, setTemplates] = useState<TemplateMeta[]>([]);
@@ -400,6 +499,33 @@ export default function DraftForm() {
                 className="mt-1 w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-sm dark:border-neutral-700"
                 placeholder={help?.example ?? `${v} を入力`}
               />
+              {help?.presets && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {help.presets.map((p) => {
+                    const active = splitDraftParts(values[v] ?? "").includes(p);
+                    return (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() =>
+                          setValues((s) => ({
+                            ...s,
+                            [v]: toggleDraftPart(s[v] ?? "", p),
+                          }))
+                        }
+                        className={`rounded-full border px-2.5 py-1 text-xs transition ${
+                          active
+                            ? "border-brand bg-brand text-white"
+                            : "border-neutral-300 text-neutral-600 hover:border-brand dark:border-neutral-700 dark:text-neutral-300"
+                        }`}
+                      >
+                        {active ? "✓ " : "+ "}
+                        {p}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           );
         })}
