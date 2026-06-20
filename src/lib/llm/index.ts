@@ -33,3 +33,8 @@ export function getProvider(name?: ProviderName): LLMProvider {
 export function getDefaultModel(): string {
   return process.env.LLM_MODEL ?? "qwen2.5:7b";
 }
+
+/** 画像認識（vision）用モデル。参考写真の解析などに使用 */
+export function getVisionModel(): string {
+  return process.env.VISION_MODEL ?? "qwen2.5vl:7b";
+}
