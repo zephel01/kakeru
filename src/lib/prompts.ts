@@ -81,3 +81,57 @@ export async function renderPrompt(
     user: renderVariables(user, values),
   };
 }
+
+// ============================================================
+// お店モード（かんたんモード）用テンプレート
+// prompts/shop/ 配下を読み込む
+// ============================================================
+
+const SHOP_DIR = path.join(PROMPTS_DIR, "shop");
+
+export interface ShopTemplateMeta {
+  id: string;
+  title: string;
+  file: string;
+  variables: string[];
+  channels?: string[];
+}
+
+export async function loadShopIndex(): Promise<{
+  templates: ShopTemplateMeta[];
+}> {
+  const raw = await fs.readFile(path.join(SHOP_DIR, "index.json"), "utf-8");
+  return JSON.parse(raw) as { templates: ShopTemplateMeta[] };
+}
+
+export async function getShopTemplateMeta(
+  id: string,
+): Promise<ShopTemplateMeta | undefined> {
+  const index = await loadShopIndex();
+  return index.templates.find((t) => t.id === id);
+}
+
+async function loadShopTemplateBody(
+  file: string,
+): Promise<{ system: string; user: string }> {
+  const raw = await fs.readFile(path.join(SHOP_DIR, file), "utf-8");
+  const body = raw.replace(/^---\n[\s\S]*?\n---\n/, "").trim();
+  return {
+    system: extractSection(body, "System"),
+    user: extractSection(body, "User"),
+  };
+}
+
+export async function renderShopPrompt(
+  id: string,
+  values: Record<string, string>,
+): Promise<RenderedPrompt> {
+  const meta = await getShopTemplateMeta(id);
+  if (!meta) throw new Error(`Unknown shop template: ${id}`);
+
+  const { system, user } = await loadShopTemplateBody(meta.file);
+  return {
+    system: renderVariables(system, values),
+    user: renderVariables(user, values),
+  };
+}

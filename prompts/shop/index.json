@@ -1,0 +1,29 @@
+{
+  "templates": [
+    {
+      "id": "sns-post",
+      "title": "SNS投稿文",
+      "file": "sns-post.md",
+      "channels": ["instagram", "line", "x"],
+      "variables": ["gyoshu", "shop_name", "channel", "purpose", "details", "tone"]
+    },
+    {
+      "id": "menu-copy",
+      "title": "メニュー表の文面",
+      "file": "menu-copy.md",
+      "variables": ["gyoshu", "item_name", "details", "price", "appeal"]
+    },
+    {
+      "id": "flyer-copy",
+      "title": "チラシの文面",
+      "file": "flyer-copy.md",
+      "variables": ["gyoshu", "purpose", "offer", "target", "info"]
+    },
+    {
+      "id": "image-prompt",
+      "title": "画像のプロンプト",
+      "file": "image-prompt.md",
+      "variables": ["gyoshu", "purpose", "people", "atmosphere", "avoid", "reference"]
+    }
+  ]
+}

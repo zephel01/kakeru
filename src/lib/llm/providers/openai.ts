@@ -38,4 +38,21 @@ export class OpenAIProvider implements LLMProvider {
       },
     };
   }
+
+  async *generateStream(input: LLMGenerateInput): AsyncIterable<string> {
+    const stream = await this.client.chat.completions.create({
+      model: input.model,
+      temperature: input.temperature ?? 0.7,
+      stream: true,
+      messages: [
+        { role: "system", content: input.system },
+        { role: "user", content: input.prompt },
+      ],
+    });
+
+    for await (const part of stream) {
+      const delta = part.choices[0]?.delta?.content;
+      if (delta) yield delta;
+    }
+  }
 }

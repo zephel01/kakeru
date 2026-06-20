@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const nav = [
   { href: "/", label: "ホーム" },
+  { href: "/shop", label: "お店モード" },
   { href: "/draft", label: "ドラフト" },
   { href: "/thumbnail", label: "サムネ" },
   { href: "/dashboard", label: "分析" },
