@@ -27,6 +27,34 @@
       "file": "x-post.md",
       "media": ["x"],
       "variables": ["source_content", "goal", "tone", "link"]
+    },
+    {
+      "id": "tutorial",
+      "title": "チュートリアル / ハンズオン記事",
+      "file": "tutorial.md",
+      "media": ["zenn", "note"],
+      "variables": ["topic", "audience", "prerequisites", "outcome"]
+    },
+    {
+      "id": "list-roundup",
+      "title": "まとめ / ○選記事",
+      "file": "list-roundup.md",
+      "media": ["zenn", "note"],
+      "variables": ["theme", "count", "criteria", "audience"]
+    },
+    {
+      "id": "opinion",
+      "title": "オピニオン / コラム",
+      "file": "opinion.md",
+      "media": ["note", "x"],
+      "variables": ["theme", "stance", "audience", "context"]
+    },
+    {
+      "id": "release-announce",
+      "title": "リリース告知 / プロダクト紹介",
+      "file": "release-announce.md",
+      "media": ["zenn", "note", "x"],
+      "variables": ["product_name", "what_changed", "audience", "link"]
     }
   ]
 }
