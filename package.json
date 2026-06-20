@@ -1,0 +1,43 @@
+{
+  "name": "kakeru",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered draft & content creation tool specialized for Zenn, note, and X (Japanese optimized + local LLM private mode)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,css}\""
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.2",
+    "@supabase/supabase-js": "^2.47.0",
+    "openai": "^4.77.0",
+    "@anthropic-ai/sdk": "^0.32.1",
+    "gpt-tokenizer": "^2.8.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
