@@ -1,0 +1,32 @@
+{
+  "templates": [
+    {
+      "id": "tech-explainer",
+      "title": "技術解説記事",
+      "file": "tech-explainer.md",
+      "media": ["zenn", "note"],
+      "variables": ["topic", "audience", "keywords", "reference_links"]
+    },
+    {
+      "id": "benchmark-comparison",
+      "title": "ベンチマーク / 比較記事",
+      "file": "benchmark-comparison.md",
+      "media": ["zenn", "note"],
+      "variables": ["subjects", "metrics", "environment", "use_case"]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "トラブルシューティング記事",
+      "file": "troubleshooting.md",
+      "media": ["zenn", "note"],
+      "variables": ["problem", "environment", "error_message", "attempted"]
+    },
+    {
+      "id": "x-post",
+      "title": "X(Twitter) 投稿ドラフト",
+      "file": "x-post.md",
+      "media": ["x"],
+      "variables": ["source_content", "goal", "tone", "link"]
+    }
+  ]
+}
